@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+
+
+	<!-- 解决乱码问题 -->
+	<filter>
+		<filter-name>CharactorEncodingFilter</filter-name>
+		<filter-class>cn.xidian.filter.CharactorEncodingFilter</filter-class>
+		<init-param>
+			<param-name>charset</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>CharactorEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 解决乱码问题 -->
+	<session-config>
+		<session-timeout>1440</session-timeout>
+	</session-config>
+	<!-- 必须登录才能访问 -->
+	<filter>
+		<filter-name>AdminLoginFilter</filter-name>
+		<filter-class>cn.xidian.filter.AdminLoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AdminLoginFilter</filter-name>
+		<url-pattern>/admin/*</url-pattern>
+	</filter-mapping>
+	<filter>
+		<filter-name>TeacherStudentLoginFilter</filter-name>
+		<filter-class>cn.xidian.filter.TeacherStudentLoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>TeacherStudentLoginFilter</filter-name>
+		<url-pattern>/teacher/*</url-pattern>
+		<url-pattern>/student/*</url-pattern>
+	</filter-mapping>
+	<!-- 必须登录才能访问 -->
+	<filter>
+		<filter-name>SpringOpenSessionInViewFilter</filter-name>
+		<filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>SpringOpenSessionInViewFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:applicationContext.xml</param-value>
+	</context-param>
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+
+	<filter>
+		<filter-name>struts2</filter-name>
+		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>struts2</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- 压缩图片 -->
+	<filter>
+    <filter-name>GZipFilter</filter-name>
+    <filter-class>cn.xidian.filter.GZipFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>GZipFilter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>REQUEST</dispatcher>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>GZipFilter</filter-name>
+    <url-pattern>*.js</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>GZipFilter</filter-name>
+    <url-pattern>*.css</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>GZipFilter</filter-name>
+    <url-pattern>*.html</url-pattern>
+  </filter-mapping>
+</web-app>

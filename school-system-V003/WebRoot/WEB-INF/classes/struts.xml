@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.devMode" value="false" />
+	
+	<package name="system" extends="struts-default" namespace="/">
+		<!-- 登录 -->
+		<action name="loginAction" class="loginAction"
+			method="loginValidate">
+			<!-- <result name="teacher" type="chain">Teacher_Information_1_selectBasicInf</result> -->
+			<result name="student" type="chain">Student_Information_1_selectBasicByNum</result>
+			<result name="teacher" type="chain">Teacher_Information_1_selectInfByNum</result>
+			<result name="admin">admin/AdminHome1.jsp</result>
+			<result name="TSFalse">/login_frame.jsp</result>
+			<result name="AFalse">/AdminLogin.jsp</result>
+		</action>
+		<action name="loginOutAction" class="loginAction"
+			method="loginOut">
+			<result type="chain">Major___selectMajorInf</result>
+		</action>
+		<action name="adminLoginOutAction" class="loginAction"
+			method="adminLoginOut">
+			<result>/AdminLogin.jsp</result>
+		</action>
+		 
+		<!-- 老师&学生&课程详情&管理员 -->
+		<!-- 命名规则：身份_类型_类型_方法。示例：AdminCourse_Add_2_addCursBasicInf -->		
+		<action name="*_*_*_*" class="{1}Action"
+			method="{4}">
+			<result name="login">/login_frame.jsp</result>  
+			<result name="teacher">/teacher/{1}{2}{3}.jsp</result>
+			<result name="student">/student/{1}{2}{3}.jsp</result>
+			<result name="course">/course/{1}{2}{3}.jsp</result>
+			<result name="admin">/admin/{1}{2}{3}.jsp</result>
+			
+			<result name="teacherModify" type="chain">Teacher_Information_Modify_selectInfByNum</result>
+			<result name="adminTeacherList" type="chain">AdminTeacher_List_1_selectAllTchrs</result>
+			<result name="adminStudentList" type="chain">AdminStudent_List_1_selectAllStus</result>
+			<result name="adminStudentDetail" type="chain">AdminStudent_Information_1_selectStudentBySchNum</result>
+			<result name="adminAdminList" type="chain">Admin_Modify_1_selectAllAdmin</result>
+			<result name="adminAdminListR" type="redirectAction">Admin_Modify_1_selectAllAdmin</result>
+			<result name="adminCourseList" type="chain">AdminCourse_List_1_selectAllCurs</result>
+			<result name="adminAddCourse" type="chain">AdminCourse_Add_1_selectDeptmentAndThr</result>
+			<result name="adminMajorInfo" type="redirect">Admin_MajorInformation_Modify_selectAllTchrs</result>
+			<result name="stuActList" type="chain">Student_Portfolio_Activity_selectActivity</result>
+			<result name="stuItemList" type="chain">Student_Award_1_selectItem</result>
+			<result name="tchrManagement4" type="chain">Teacher_Management_4_excute</result>
+			<result name="tchrManagement5" type="chain">Teacher_Management_5_excute</result>
+			<result name="tchrCursEvaluate" type="chain">Teacher_Course_Evaluate_selectTargetEvaByCursId</result>
+			<result name="teacherCourseList" type="chain">Teacher_Management_1_selectTchrCourse</result>
+			<result name="teacherManager1" type="chain">TeacherCourse_Manager_1_selectAllPoints</result>
+			<result name="targetDetail">/teacher/TeacherPointValueDetail.jsp</result>
+			<result name="false" type="chain">Major___selectMajorInf</result>
+		</action>
+		 
+		<!-- 上传文件 -->
+		<action name="FileUpload" class="cn.xidian.web.action.FileUploadAction"
+			method="uploadFile">
+			<result>teacher/TeacherManagement4.jsp</result>
+		</action>
+		
+		<!-- 测试 -->
+	</package>
+</struts>
